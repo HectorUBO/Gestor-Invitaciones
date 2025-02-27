@@ -29,11 +29,15 @@ export class AsistentePrincipalController {
     @Get()
     @ApiOperation({ summary: 'Obtener todos los invitados' })
     @ApiResponse({ status: 200, description: 'Lista de invitados' })
+    @ApiResponse({ status: 404, description: 'No se encontraron invitados' })
     async findAll() {
         return this.asistentePrincipalService.findAll();
     }
 
     @Get(':id')
+    @ApiOperation({ summary: 'Obtener un invitado por su ID' })
+    @ApiResponse({ status: 200, description: 'Invitado encontrado' })
+    @ApiResponse({ status: 404, description: 'Invitado no encontrado' })
     async findOne(@Param('id') id: number) {
         const asistente = await this.asistentePrincipalService.findOne(+id);
         if (!asistente) {
@@ -45,6 +49,7 @@ export class AsistentePrincipalController {
     @Put(':id')
     @ApiOperation({ summary: 'Editar un invitado' })
     @ApiResponse({ status: 200, description: 'Invitado editado correctamente' })
+    @ApiResponse({ status: 404, description: 'Invitado no encontrado' })
     async update(
         @Param('id') id: number,
         @Body() updateAsistentePrincipalDto: UpdateAsistentePrincipalDto,
@@ -54,18 +59,18 @@ export class AsistentePrincipalController {
             updateAsistentePrincipalDto,
         );
         if (!asistente) {
-            throw new NotFoundException ('Invitado no encontrado.');
+            throw new NotFoundException('Invitado no encontrado.');
         }
         return asistente;
     }
 
     @Delete(':id')
-    @ApiOperation({ summary: 'Eliminar un asistente y sus invitados '})
-    @ApiResponse({ status: 200, description: 'Datos eliminados correctamente'})
-    @ApiResponse({ status: 400, description: 'El invitado no existe' })
+    @ApiOperation({ summary: 'Eliminar un asistente y sus invitados' })
+    @ApiResponse({ status: 200, description: 'Datos eliminados correctamente' })
+    @ApiResponse({ status: 404, description: 'Invitado principal no encontrado' })
     async remove(@Param('id') id: number) {
         const asistente = await this.asistentePrincipalService.remove(+id);
-        if(!asistente) {
+        if (!asistente) {
             throw new NotFoundException('Invitado principal no encontrado.');
         }
         return { message: 'Datos eliminados correctamente.' };

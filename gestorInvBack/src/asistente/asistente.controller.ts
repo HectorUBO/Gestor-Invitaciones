@@ -11,8 +11,8 @@ export class AsistenteController {
 
     @Post('registrar')
     @ApiOperation({ summary: 'Registrar un acompañante' })
-    @ApiResponse({ status: 201, description: 'Acompañante registrado con exito' })
-    @ApiResponse({ status: 400, description: 'No se pueden agregar mas de 3 acompañantes' })
+    @ApiResponse({ status: 201, description: 'Acompañante registrado con éxito' })
+    @ApiResponse({ status: 400, description: 'No se pueden agregar más de 3 acompañantes' })
     @ApiResponse({ status: 404, description: 'El asistente principal no existe' })
     create(@Body() createAsistenteDto: CreateAsistenteDto) {
         return this.asistenteService.create(createAsistenteDto);
@@ -20,14 +20,15 @@ export class AsistenteController {
 
     @Get()
     @ApiOperation({ summary: 'Obtener todos los acompañantes' })
-    @ApiResponse({ status: 200, description: 'Lista de acompañantes'})
+    @ApiResponse({ status: 200, description: 'Lista de acompañantes' })
+    @ApiResponse({ status: 404, description: 'No se encontraron acompañantes' })
     async findAll() {
         return this.asistenteService.findAll();
     }
 
     @Get(':idPrincipal/nombres')
     @ApiOperation({ summary: 'Obtener los nombres de todos los asistentes' })
-    @ApiParam({ name: 'idPrincipal', description: 'Lista de nombres de los invitados' })
+    @ApiParam({ name: 'idPrincipal', description: 'ID del invitado principal' })
     @ApiResponse({ status: 200, description: 'Lista de nombres de los asistentes' })
     @ApiResponse({ status: 404, description: 'Invitado principal no encontrado' })
     async findNombresByInvitado(@Param('idPrincipal') idPrincipal: number) {
@@ -39,6 +40,10 @@ export class AsistenteController {
     }
 
     @Put(':id')
+    @ApiOperation({ summary: 'Actualizar datos de asistentes' })
+    @ApiParam({ name: 'id', description: 'ID del asistente' })
+    @ApiResponse({ status: 200, description: 'Asistente editado correctamente' })
+    @ApiResponse({ status: 404, description: 'Asistente no encontrado' })
     async update(
         @Param('id') id: number,
         @Body() updateAsistenteDto: UpdateAsistenteDto,
@@ -51,6 +56,10 @@ export class AsistenteController {
     }
 
     @Delete(':id')
+    @ApiOperation({ summary: 'Eliminar un asistente' })
+    @ApiParam({ name: 'id', description: 'ID del asistente' })
+    @ApiResponse({ status: 200, description: 'Asistente eliminado correctamente' })
+    @ApiResponse({ status: 404, description: 'Asistente no encontrado' })
     async remove(@Param('id') id: number) {
         const asistente = await this.asistenteService.remove(+id);
         if (!asistente) {
