@@ -1,40 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Button, Alert, StyleSheet, TextInput } from 'react-native';
-import { obtenerInvitadoPrincipal, actualizarInvitadoPrincipal } from '../services/api';
+import { useEffect, useState } from "react";
+import { actualizarInvitadoPrincipal, obtenerInvitadoPrincipal } from "../services/api";
+import { View, Text, Button, Alert, StyleSheet } from 'react-native';
+import Input from '../components/Input';
 
-const EditarPrincipal = ({ route, navigation }) => {
+const EditarInvitado = ({ route, navigation }) => {
     const { id } = route.params;
     const [nombre, setNombre] = useState('');
     const [numero, setNumero] = useState('');
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        const fetchInvitado = async () => {
+        const cargarInvitado = async () => {
+            setLoading(true);
             try {
-                const invitado = await obtenerInvitadoPrincipal(id);
+                const Invitado = await obtenerInvitadoPrincipal(id);
                 setNombre(invitado.nombre);
                 setNumero(invitado.numero);
             } catch (error) {
-                Alert.alert('Error', 'No se pudieron cargar los datos.');
+                Alert.alert('Error', error.message || 'Error al cargar los datos.');
+            } finally {
+                setLoading(false);
             }
         };
 
-        fetchInvitado();
+        cargarInvitado();
     }, [id]);
 
-    const handleActualizar = async () => {
+    const handleGuardar = async () => {
         if (!nombre || !numero) {
-            Alert.alert('Eror', 'Completa los campos.');
+            Alert.alert('Error', 'Por favor ingresa los datos.');
             return;
         }
 
         setLoading(true);
         try {
             await actualizarInvitadoPrincipal(id, { nombre, numero });
-            Alert.alert('Exito', 'Datos actualizados correctamente.');
+            Alert.alert('Éxito', 'Invitado actualizado correctamente.');
             navigation.goBack();
         } catch (error) {
-            Alert.alert('Error', error);
+            Alert.alert('Error', error.message || 'Error al actualizar el invitado.');
         } finally {
             setLoading(false);
         }
@@ -42,23 +46,21 @@ const EditarPrincipal = ({ route, navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Editar Invitado Principal</Text>
-            <TextInput
-                style={styles.input}
+            <Text style={styles.title}>Editar Invitado</Text>
+            <Input
                 placeholder="Nombre"
                 value={nombre}
                 onChangeText={setNombre}
             />
-            <TextInput
-                style={styles.input}
+            <Input
                 placeholder="Número de teléfono"
                 value={numero}
                 onChangeText={setNumero}
                 keyboardType="phone-pad"
             />
             <Button
-                title={loading ? 'Actualizando...' : 'Actualizar'}
-                onPress={handleActualizar}
+                title={loading ? 'Guardando...' : 'Guardar Cambios'}
+                onPress={handleGuardar}
                 disabled={loading}
             />
         </View>
@@ -68,23 +70,14 @@ const EditarPrincipal = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         padding: 20,
+        justifyContent: 'center',
     },
     title: {
         fontSize: 24,
-        fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
     },
-    input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 10,
-        paddingHorizontal: 10,
-        borderRadius: 5,
-    },
 });
 
-export default EditarPrincipal;
+export default EditarInvitado;

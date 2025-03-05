@@ -43,10 +43,10 @@ export const obtenerInvitadoPrincipal = async (id) => {
 
 export const obtenerAcompanantes = async (idPrincipal) => {
   try {
-    const response = await axios.get(`${API_URL}/asistente?idPrincipal=${idPrincipal}`);
+    const response = await axios.get(`${API_URL}/asistente/${idPrincipal}/nombres`);
     return response.data;
   } catch (error) {
-    throw error.response?.data?.message || 'Error al obtener invitados';
+    throw error.response?.data?.message || 'Error al obtener los acompañantes';
   }
 };
 
@@ -68,7 +68,7 @@ export const actualizarAcompanante = async (id, data) => {
   }
 };
 
-export const eliminarInvitadoPrincipal = async (id) => {
+export const eliminarInvitado = async (id) => {
   try {
     const response = await axios.delete(`${API_URL}/asistentePrincipal/${id}`);
     return response.data;

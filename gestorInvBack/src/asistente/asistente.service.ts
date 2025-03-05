@@ -57,10 +57,9 @@ export class AsistenteService {
 
         const acompañantes = await this.prisma.asistente.findMany({
             where: { idPrincipal },
-            select: { nombre: true },
         });
 
-        return acompañantes.map((a) => a.nombre);
+        return acompañantes;
     }
 
     async update(id: number, updateAsistenteDto: UpdateAsistenteDto) {

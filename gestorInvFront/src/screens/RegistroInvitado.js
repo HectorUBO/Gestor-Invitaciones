@@ -1,31 +1,26 @@
 import React, { useState } from 'react';
 import { View, Text, Button, Alert, StyleSheet } from 'react-native';
-import Input from '../components/Input';
 import { registrarInvitacionPrincipal } from '../services/api';
+import Input from '../components/Input'
 
-const RegistroInvitacionPrincipal = ({ navigation }) => {
+const RegistroInvitado = ({ navigation }) => {
     const [nombre, setNombre] = useState('');
     const [numero, setNumero] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleRegistro = async () => {
         if (!nombre || !numero) {
-            Alert.alert('Error', 'Por favor, completa todos los campos.');
+            Alert.alert('Error', 'Por favor completa los campos');
             return;
         }
 
         setLoading(true);
         try {
-            const response = await registrarInvitacionPrincipal(nombre, numero);
-            Alert.alert('Éxito', 'Invitación principal registrada correctamente.');
-            setNombre('');
-            setNumero('');
-
-            // Redirigir a la pantalla de registro de acompañantes
-            console.log('ID del invitado principal:', response.id);
-            navigation.navigate('RegistroAcompanantes', { idPrincipal: response.id });
+            await registrarInvitacionPrincipal(nombre, numero);
+            Alert.alert('Exito', 'Invitado registrado correctamente.');
+            navigation.goBack();
         } catch (error) {
-            Alert.alert('Error', error);
+            Alert.alert('Error', error.message || 'Ocurrió un error al registrar el invitado.');
         } finally {
             setLoading(false);
         }
@@ -33,7 +28,7 @@ const RegistroInvitacionPrincipal = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Registro de Invitación Principal</Text>
+            <Text style={styles.title}>Registrar Nuevo Invitado</Text>
             <Input
                 placeholder="Nombre"
                 value={nombre}
@@ -46,7 +41,7 @@ const RegistroInvitacionPrincipal = ({ navigation }) => {
                 keyboardType="phone-pad"
             />
             <Button
-                title={loading ? 'Registrando...' : 'Registrar'}
+                title={loading ? 'Registrando...' : 'Registrar Invitado'}
                 onPress={handleRegistro}
                 disabled={loading}
             />
@@ -57,15 +52,14 @@ const RegistroInvitacionPrincipal = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         padding: 20,
+        justifyContent: 'center',
     },
     title: {
         fontSize: 24,
-        fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
     },
 });
 
-export default RegistroInvitacionPrincipal;
+export default RegistroInvitado;
