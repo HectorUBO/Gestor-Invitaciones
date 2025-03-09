@@ -38,12 +38,25 @@ export class AsistentePrincipalController {
     @ApiOperation({ summary: 'Obtener un invitado por su ID' })
     @ApiResponse({ status: 200, description: 'Invitado encontrado' })
     @ApiResponse({ status: 404, description: 'Invitado no encontrado' })
-    async findOne(@Param('id') id: number) {
+    async findOne(@Param('id') id: string) {
         const asistente = await this.asistentePrincipalService.findOne(+id);
         if (!asistente) {
             throw new NotFoundException('Invitado no encontrado.');
         }
         return asistente;
+    }
+
+    @Get('porNumero/:numero')
+    @ApiOperation({ summary: 'Obtener ID por su numero' })
+    @ApiResponse({ status: 200, description: 'Invitado encontrado' })
+    @ApiResponse({ status: 404, description: 'Invitado no encontrado' })
+    async findByNumero(@Param('numero') numero: string) {
+        try {
+            const id = await this.asistentePrincipalService.findByNumero(numero);
+            return { id };
+        } catch (error) {
+            throw new NotFoundException(error.message);
+        }
     }
 
     @Put(':id')

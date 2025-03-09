@@ -42,6 +42,19 @@ export class AsistentePrincipalService {
         }));
     }
 
+    async findByNumero(numero: string) {
+        const asistente = await this.prisma.asistentePrincipal.findFirst({
+            where: { numero },
+            select: { id: true },
+        });
+
+        if (!asistente) {
+            throw new BadRequestException('No se encontro el invitado.');
+        }
+
+        return asistente.id;
+    }
+
     async update(id: number, updateAsistentePrincipalDto: UpdateAsistentePrincipalDto) {
         return this.prisma.asistentePrincipal.update({
             where: { id },

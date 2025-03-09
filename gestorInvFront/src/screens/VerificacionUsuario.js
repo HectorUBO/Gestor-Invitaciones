@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Button, Alert, StyleSheet } from 'react-native';
-import { obtenerInvitadoPrincipal } from '../services/api';
+import { obtenerIdPorNumero, obtenerInvitadoPrincipal } from '../services/api';
 import Input from '../components/Input';
 
 const VerificacionUsuario = ({ navigation }) => {
@@ -16,9 +16,11 @@ const VerificacionUsuario = ({ navigation }) => {
 
         setLoading(true);
         try {
-            const invitado = await obtenerInvitadoPrincipal(numero);
+            const id = await obtenerIdPorNumero(numero);
+            const invitado = await obtenerInvitadoPrincipal(id);
+
             if (invitado && invitado.nombre === nombre) {
-                navigation.navigate('RegistroAcompanantes', { idPrincipal: invitado.id });
+                navigation.navigate('RegistroAcompanantes', { idPrincipal: id });
             } else {
                 Alert.alert('Error', 'No estás registrado como invitado principal.');
             }
