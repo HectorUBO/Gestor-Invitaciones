@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Button, Alert, StyleSheet, ScrollView } from 'react-native';
+import { Text, Button, Alert, StyleSheet, ScrollView } from 'react-native';
 import { registrarAcompanante } from '../services/api';
 import Input from '../components/Input';
 
@@ -28,7 +28,7 @@ const RegistroAcompanantes = ({ route, navigation }) => {
                 }
             }
             Alert.alert('Éxito', 'Acompañantes registrados correctamente.');
-            navigation.goBack();
+            navigation.navigate('Confirmacion');
         } catch (error) {
             Alert.alert('Error', error.message || 'Ocurrió un error al registrar los acompañantes.');
         } finally {

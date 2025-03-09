@@ -39,11 +39,15 @@ export class AsistentePrincipalController {
     @ApiResponse({ status: 200, description: 'Invitado encontrado' })
     @ApiResponse({ status: 404, description: 'Invitado no encontrado' })
     async findOne(@Param('id') id: string) {
-        const asistente = await this.asistentePrincipalService.findOne(+id);
-        if (!asistente) {
-            throw new NotFoundException('Invitado no encontrado.');
+        try {
+            const invitado = await this.asistentePrincipalService.findOne(+id);
+            if(!invitado) {
+                throw new NotFoundException('Invitado no encontrado');
+            }
+            return invitado;
+        } catch (error) {
+            throw new NotFoundException(error.message);
         }
-        return asistente;
     }
 
     @Get('porNumero/:numero')

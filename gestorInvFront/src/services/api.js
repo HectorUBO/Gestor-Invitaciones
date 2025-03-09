@@ -43,9 +43,7 @@ export const obtenerInvitadoPrincipal = async (id) => {
 
 export const obtenerIdPorNumero = async (numero) => {
   try {
-    const response = await axios.get(`${API_URL}/asistentePrincipal/porNumero`, {
-      params: { numero },
-    });
+    const response = await axios.get(`${API_URL}/asistentePrincipal/porNumero/${numero}`);
     return response.data.id;
   } catch (error) {
     throw error.response?.data?.message || 'Error al obtener ID';

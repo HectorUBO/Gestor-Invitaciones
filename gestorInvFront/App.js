@@ -10,6 +10,7 @@ import EditarInvitado from './src/screens/EditarInvitado';
 import DetalleInvitado from './src/screens/DetalleInvitado';
 import VerificacionUsuario from './src/screens/VerificacionUsuario';
 import RegistroAcompanantes from './src/screens/RegistroAcompanantes';
+import Confirmacion from './src/screens/Confirmacion';
 
 const Stack = createStackNavigator();
 
@@ -56,6 +57,11 @@ const App = () => {
           name="RegistroAcompanantes"
           component={RegistroAcompanantes}
           options={{ title: 'Registro de Acompañantes' }}
+        />
+        <Stack.Screen
+          name="Confirmacion"
+          component={Confirmacion}
+          options={{ title: 'Confirmación' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -16,8 +16,12 @@ const VerificacionUsuario = ({ navigation }) => {
 
         setLoading(true);
         try {
+            console.log('Número de teléfono enviado:', numero);
             const id = await obtenerIdPorNumero(numero);
+            console.log('ID recibido:', id);
+
             const invitado = await obtenerInvitadoPrincipal(id);
+            console.log('Invitado recibido:', invitado);
 
             if (invitado && invitado.nombre === nombre) {
                 navigation.navigate('RegistroAcompanantes', { idPrincipal: id });
@@ -25,6 +29,7 @@ const VerificacionUsuario = ({ navigation }) => {
                 Alert.alert('Error', 'No estás registrado como invitado principal.');
             }
         } catch (error) {
+            console.error('Error:', error);
             Alert.alert('Error', error.message || 'Ocurrió un error al verificar.');
         } finally {
             setLoading(false);
