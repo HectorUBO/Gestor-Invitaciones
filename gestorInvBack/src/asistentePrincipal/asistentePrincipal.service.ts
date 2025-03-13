@@ -8,7 +8,7 @@ export class AsistentePrincipalService {
     constructor(private prisma: PrismaService) { }
 
     async create(createAsistentePrincipalDto: CreateAsistentePrincipalDto) {
-        const { nombre, numero } = createAsistentePrincipalDto;
+        const { nombre, numero, cantidadInv } = createAsistentePrincipalDto;
 
         const existeAsistente = await this.prisma.asistentePrincipal.findFirst({
             where: { numero },
@@ -22,6 +22,7 @@ export class AsistentePrincipalService {
             data: {
                 nombre,
                 numero,
+                cantidadInv,
                 asistentes: 1,
             },
         });
@@ -38,6 +39,7 @@ export class AsistentePrincipalService {
             id: invitado.id,
             nombre: invitado.nombre,
             numero: invitado.numero,
+            cantidadInv: invitado.cantidadInv,
             totalInvitados: invitado.asistentes,
         }));
     }

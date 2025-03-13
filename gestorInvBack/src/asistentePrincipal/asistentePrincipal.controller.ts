@@ -37,7 +37,7 @@ export class AsistentePrincipalController {
     @Get(':id')
     @ApiOperation({ summary: 'Obtener un invitado por su ID' })
     @ApiResponse({ status: 200, description: 'Invitado encontrado' })
-    @ApiResponse({ status: 404, description: 'Invitado no encontrado' })
+    @ApiResponse({ status: 400, description: 'Invitado no encontrado' })
     async findOne(@Param('id') id: string) {
         try {
             const invitado = await this.asistentePrincipalService.findOne(+id);

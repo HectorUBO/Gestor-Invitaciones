@@ -2,11 +2,12 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3000';
 
-export const registrarInvitacionPrincipal = async (nombre, numero) => {
+export const registrarInvitacionPrincipal = async (nombre, numero, cantidadInv) => {
   try {
     const response = await axios.post(`${API_URL}/asistentePrincipal/registrar`, {
       nombre,
       numero,
+      cantidadInv,
     });
     return response.data;
   } catch (error) {

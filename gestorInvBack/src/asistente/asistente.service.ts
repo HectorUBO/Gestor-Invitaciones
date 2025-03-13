@@ -17,10 +17,6 @@ export class AsistenteService {
             throw new Error('El asistente principal no existe');
         }
 
-        if (asistentePrincipal.asistentes >= 4) {
-            throw new Error('No se pueden agregar mas de 3 acompañantes');
-        }
-
         const nuevoAsistente = await this.prisma.asistente.create({
             data: {
                 nombre: createAsistenteDto.nombre,

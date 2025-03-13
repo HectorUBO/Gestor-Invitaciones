@@ -14,10 +14,11 @@ datasource db {
 }
 
 model asistentePrincipal {
-  id         Int    @id @default(autoincrement())
-  nombre     String @db.VarChar(30)
-  numero     String @db.VarChar(15)
-  asistentes Int
+  id          Int    @id @default(autoincrement())
+  nombre      String @db.VarChar(30)
+  numero      String @db.VarChar(15)
+  asistentes  Int
+  cantidadInv Int    @default(1)
 
   asistentesRelacionados asistente[] @relation("PrincipalAcompanante")
 }

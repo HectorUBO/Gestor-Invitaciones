@@ -6,17 +6,18 @@ import Input from '../components/Input'
 const RegistroInvitado = ({ navigation }) => {
     const [nombre, setNombre] = useState('');
     const [numero, setNumero] = useState('');
+    const [cantidadInv, setCantidadInv] = useState('1');
     const [loading, setLoading] = useState(false);
 
     const handleRegistro = async () => {
-        if (!nombre || !numero) {
+        if (!nombre || !numero || !cantidadInv) {
             Alert.alert('Error', 'Por favor completa los campos');
             return;
         }
 
         setLoading(true);
         try {
-            await registrarInvitacionPrincipal(nombre, numero);
+            await registrarInvitacionPrincipal(nombre, numero, parseInt(cantidadInv, 10));
             Alert.alert('Exito', 'Invitado registrado correctamente.');
             navigation.goBack();
         } catch (error) {
@@ -39,6 +40,12 @@ const RegistroInvitado = ({ navigation }) => {
                 value={numero}
                 onChangeText={setNumero}
                 keyboardType="phone-pad"
+            />
+            <Input
+                placeholder="Cantidad de Acompañantes"
+                value={cantidadInv}
+                onChangeText={setCantidadInv}
+                keyboardType="numeric"
             />
             <Button
                 title={loading ? 'Registrando...' : 'Registrar Invitado'}

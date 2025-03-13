@@ -24,7 +24,10 @@ const VerificacionUsuario = ({ navigation }) => {
             console.log('Invitado recibido:', invitado);
 
             if (invitado && invitado.nombre === nombre) {
-                navigation.navigate('RegistroAcompanantes', { idPrincipal: id });
+                navigation.navigate('RegistroAcompanantes', { 
+                    idPrincipal: invitado.id,
+                    cantidadInv: invitado.cantidadInv,
+                });
             } else {
                 Alert.alert('Error', 'No estás registrado como invitado principal.');
             }
