@@ -8,7 +8,7 @@ export class AsistentePrincipalService {
     constructor(private prisma: PrismaService) { }
 
     async create(createAsistentePrincipalDto: CreateAsistentePrincipalDto) {
-        const { nombre, numero, cantidadInv } = createAsistentePrincipalDto;
+        const { nombre, numero, cantidadInv, asistira } = createAsistentePrincipalDto;
 
         const existeAsistente = await this.prisma.asistentePrincipal.findFirst({
             where: { numero },
@@ -23,6 +23,7 @@ export class AsistentePrincipalService {
                 nombre,
                 numero,
                 cantidadInv,
+                asistira,
                 asistentes: 1,
             },
         });
@@ -39,6 +40,7 @@ export class AsistentePrincipalService {
             id: invitado.id,
             nombre: invitado.nombre,
             numero: invitado.numero,
+            asistira: invitado.asistira,
             cantidadInv: invitado.cantidadInv,
             totalInvitados: invitado.asistentes,
         }));
@@ -47,14 +49,18 @@ export class AsistentePrincipalService {
     async findByNumero(numero: string) {
         const asistente = await this.prisma.asistentePrincipal.findFirst({
             where: { numero },
-            select: { id: true },
         });
 
         if (!asistente) {
             throw new BadRequestException('No se encontro el invitado.');
         }
 
-        return asistente.id;
+        const asistenteActualizado = await this.prisma.asistentePrincipal.update({
+            where: { id: asistente.id },
+            data: { asistira: true},
+        })
+
+        return asistenteActualizado.id;
     }
 
     async update(id: number, updateAsistentePrincipalDto: UpdateAsistentePrincipalDto) {

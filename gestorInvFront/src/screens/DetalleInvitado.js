@@ -31,7 +31,7 @@ const DetalleInvitado = ({ route }) => {
     if (loading) {
         return (
             <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#0000ff" />
+                <ActivityIndicator size="large" color="#4CAF50" />
             </View>
         );
     }
@@ -57,6 +57,12 @@ const DetalleInvitado = ({ route }) => {
                 <Text style={styles.label}>Total de Acompañantes:</Text>
                 <Text style={styles.valor}>{acompanantes.length}</Text>
             </View>
+            <View style={styles.detalleContainer}>
+                <Text style={styles.label}>Estado de Asistencia:</Text>
+                <Text style={styles.valor}>
+                    {invitado.asistira ? 'Asistirá' : 'No Asistirá'}
+                </Text>
+            </View>
 
             <Text style={styles.subtitle}>Lista de Acompañantes</Text>
             {acompanantes.length > 0 ? (
@@ -76,6 +82,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+        backgroundColor: '#FFFFFF', // Fondo blanco
     },
     loadingContainer: {
         flex: 1,
@@ -87,12 +94,14 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
+        color: '#000000', // Texto negro
     },
     subtitle: {
         fontSize: 20,
         fontWeight: 'bold',
         marginTop: 20,
         marginBottom: 10,
+        color: '#000000', // Texto negro
     },
     detalleContainer: {
         flexDirection: 'row',
@@ -101,9 +110,11 @@ const styles = StyleSheet.create({
     label: {
         fontWeight: 'bold',
         marginRight: 10,
+        color: '#000000', // Texto negro
     },
     valor: {
         flex: 1,
+        color: '#000000', // Texto negro
     },
     acompananteItem: {
         padding: 10,
@@ -112,6 +123,7 @@ const styles = StyleSheet.create({
     },
     acompananteNombre: {
         fontSize: 16,
+        color: '#000000', // Texto negro
     },
     sinAcompanantes: {
         textAlign: 'center',

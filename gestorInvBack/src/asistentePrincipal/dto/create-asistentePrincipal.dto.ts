@@ -9,4 +9,7 @@ export class CreateAsistentePrincipalDto {
 
     @ApiProperty({ example: '1, 2, 3...', description: 'Cantidad de acompañantes'})
     cantidadInv: number;
+
+    @ApiProperty({ example: 'true', description: 'Si asistira o no' })
+    asistira: boolean;
 }

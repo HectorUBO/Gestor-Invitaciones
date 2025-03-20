@@ -1,41 +1,59 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 const HomeScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Bienvenido</Text>
-            <View style={styles.buttonContainer}>
-                <Button
-                    title='Administrador'
-                    onPress={() => navigation.navigate('Administrador')}
-                />
-            </View>
-            <View style={styles.buttonContainer}>
-                <Button
-                    title='Usuario'
-                    onPress={() => navigation.navigate('VerificacionUsuario')}
-                />
-            </View>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('Administrador')}
+            >
+                <Text style={styles.buttonText}>Administrador</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('VerificacionUsuario')}
+            >
+                <Text style={styles.buttonText}>Usuario</Text>
+            </TouchableOpacity>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: 20,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+        backgroundColor: '#FFFFFF', // Fondo blanco
     },
     title: {
-      fontSize: 24,
-      marginBottom: 20,
+        fontSize: 28,
+        marginBottom: 30,
+        fontWeight: 'bold',
+        color: '#000000', // Texto negro
     },
-    buttonContainer: {
-      width: '100%',
-      marginVertical: 10,
+    button: {
+        width: '80%',
+        paddingVertical: 15,
+        backgroundColor: '#4CAF50', // Fondo verde
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 10,
+        shadowColor: '#000', // Sombra para un efecto elevado
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
+        elevation: 5, // Sombra en Android
     },
-  });
+    buttonText: {
+        fontSize: 18,
+        color: '#FFFFFF', // Texto blanco
+        fontWeight: 'bold',
+    },
+});
 
-  export default HomeScreen;
+export default HomeScreen;

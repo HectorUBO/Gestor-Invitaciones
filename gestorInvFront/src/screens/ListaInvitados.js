@@ -32,6 +32,17 @@ const ListaInvitados = ({ navigation }) => {
         }
     };
 
+    const secciones = [
+        {
+            title: 'Asisten',
+            data: invitados.filter((invitado) => invitado.asistira),
+        },
+        {
+            title: 'No Asisten',
+            data: invitados.filter((invitado) => !invitado.asistira),
+        },
+    ];
+
     const renderItem = ({ item }) => (
         <TouchableOpacity
             style={styles.row}
@@ -40,6 +51,7 @@ const ListaInvitados = ({ navigation }) => {
             <Text style={styles.cell}>{item.nombre}</Text>
             <Text style={styles.cell}>{item.numero}</Text>
             <Text style={styles.cell}>{item.totalInvitados}</Text>
+            <Text style={styles.cell}>{item.asistira ? 'Sí' : 'No'}</Text>
 
             <TouchableOpacity
                 style={styles.button}
@@ -64,9 +76,11 @@ const ListaInvitados = ({ navigation }) => {
                 <Text style={styles.headerCell}>Nombre</Text>
                 <Text style={styles.headerCell}>Teléfono</Text>
                 <Text style={styles.headerCell}>Asistentes</Text>
+                <Text style={styles.headerCell}>Asistirá</Text>
                 <Text style={styles.headerCell}>Acciones</Text>
             </View>
             <FlatList
+                sections={secciones}
                 data={invitados}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={renderItem}
@@ -81,11 +95,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
+        backgroundColor: '#FFFFFF', // Fondo blanco
     },
     title: {
         fontSize: 24,
+        fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
+        color: '#000000', // Texto negro
     },
     header: {
         flexDirection: 'row',
@@ -98,6 +115,7 @@ const styles = StyleSheet.create({
         flex: 1,
         fontWeight: 'bold',
         textAlign: 'center',
+        color: '#000000', // Texto negro
     },
     row: {
         flexDirection: 'row',
@@ -105,23 +123,34 @@ const styles = StyleSheet.create({
         borderBottomColor: '#eee',
         paddingVertical: 10,
         alignItems: 'center',
+        backgroundColor: '#f9f9f9', // Fondo gris claro
+        borderRadius: 10,
+        marginVertical: 5,
+        paddingHorizontal: 10,
+        shadowColor: '#000', // Sombra para un efecto elevado
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+        elevation: 3, // Sombra en Android
     },
     cell: {
         flex: 1,
         textAlign: 'center',
+        color: '#000000', // Texto negro
     },
     button: {
         padding: 8,
-        backgroundColor: '#007bff',
+        backgroundColor: '#4CAF50', // Fondo verde
         borderRadius: 5,
         marginHorizontal: 2,
     },
     deleteButton: {
-        backgroundColor: '#dc3545',
+        backgroundColor: '#dc3545', // Fondo rojo
     },
     buttonText: {
-        color: '#fff',
+        color: '#FFFFFF', // Texto blanco
         textAlign: 'center',
+        fontWeight: 'bold',
     },
 });
 
