@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { actualizarInvitadoPrincipal, obtenerInvitadoPrincipal } from "../services/api";
+import { actualizarInvitadoPrincipal, obtenerAcompanantes, obtenerInvitadoPrincipal } from "../services/api";
 import { View, Text, Alert, StyleSheet, TouchableOpacity } from 'react-native';
 import Input from '../components/Input';
 
@@ -7,6 +7,8 @@ const EditarInvitado = ({ route, navigation }) => {
     const { id } = route.params;
     const [nombre, setNombre] = useState('');
     const [numero, setNumero] = useState('');
+    const [asistentes, setAsistentes] = useState('');
+    const [cantidadRegistrados, setCantidadRegistrados] = useState(0);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -16,6 +18,10 @@ const EditarInvitado = ({ route, navigation }) => {
                 const invitado = await obtenerInvitadoPrincipal(id);
                 setNombre(invitado.nombre);
                 setNumero(invitado.numero);
+                setAsistentes(invitado.cantidadInv.toString());
+
+                const acompanantes = await obtenerAcompanantes(id);
+                setCantidadRegistrados(acompanantes.length);
             } catch (error) {
                 Alert.alert('Error', error.message || 'Error al cargar los datos.');
             } finally {
@@ -27,14 +33,25 @@ const EditarInvitado = ({ route, navigation }) => {
     }, [id]);
 
     const handleGuardar = async () => {
-        if (!nombre || !numero) {
+        if (!nombre || !numero || !asistentes) {
             Alert.alert('Error', 'Por favor ingresa los datos.');
+            return;
+        }
+
+        const cantidadInv = parseInt(asistentes, 10);
+        if (isNaN(cantidadInv)) {
+            Alert.alert('Error', 'La cantidad de acompañantes debe ser un número válido.');
+            return;
+        }
+
+        if (cantidadInv < cantidadRegistrados) {
+            Alert.alert('Error', `La cantidad de acompañantes no puede ser menor a ${cantidadRegistrados}`);
             return;
         }
 
         setLoading(true);
         try {
-            await actualizarInvitadoPrincipal(id, { nombre, numero });
+            await actualizarInvitadoPrincipal(id, { nombre, numero, cantidadInv });
             Alert.alert('Éxito', 'Invitado actualizado correctamente.');
             navigation.goBack();
         } catch (error) {
@@ -58,6 +75,13 @@ const EditarInvitado = ({ route, navigation }) => {
                 value={numero}
                 onChangeText={setNumero}
                 keyboardType="phone-pad"
+                style={styles.input}
+            />
+            <Input
+                placeholder="Cantidad de acompañantes"
+                value={asistentes}
+                onChangeText={setAsistentes}
+                keyboardType="numeric"
                 style={styles.input}
             />
             <TouchableOpacity
